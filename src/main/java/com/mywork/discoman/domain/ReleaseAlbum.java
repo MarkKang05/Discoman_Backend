@@ -11,16 +11,23 @@ public class ReleaseAlbum {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "masterAlbum_id")
+    @JoinColumn(name = "masteralbum_id")
     private MasterAlbum masterAlbum;
 
+    @Column(nullable = false)
     private String format;
+
     @ManyToOne
     @JoinColumn(name = "label_id")
     private Label label;
 
+    @Column(nullable = false)
     private String catalogue;
+
+    @Column(nullable = false)
     private String country;
+
+    @Column(nullable = false)
     private int released;
 
     //review

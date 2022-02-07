@@ -10,12 +10,17 @@ public class SellAlbum {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String description;
 
-    @Enumerated(EnumType.STRING)
+//    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Condition condition;
+    private Condition vinylCondition;
 
+    @Column(nullable = false)
+    private Condition sleeveCondition;
+
+    @Column(nullable = false)
     private int price;
 
     @ManyToOne
@@ -23,6 +28,6 @@ public class SellAlbum {
     private User seller;
 
     @ManyToOne
-    @JoinColumn(name = "releaseAlbum_id")
+    @JoinColumn(name = "releasealbum_id")
     private ReleaseAlbum releaseAlbum;
 }

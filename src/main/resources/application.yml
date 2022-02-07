@@ -1,6 +1,9 @@
 spring:
-  mustache:
-    suffix: .html
+  output:
+    ansi:
+      enabled: ALWAYS
+#  mustache:
+#    suffix: .html
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/discoman?serverTimezone=Asia/Seoul
@@ -17,3 +20,16 @@ spring:
       hibernate.format_sql: true
     generate-ddl: true
 
+  redis:
+    host: localhost
+    port: 6379
+
+logging:
+  level:
+    root: INFO
+    com.mywork.discoman: DEBUG
+
+jwt:
+  secret: EltonJohnGoodbyeYellowBrickRoad
+  access_expiration_time: 60000
+  refresh_expiration_time: 120000

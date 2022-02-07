@@ -16,9 +16,16 @@ public class MasterAlbum {
     @JoinColumn(name = "artist_id")
     private Artist artist;
 
+    @Column(nullable = false)
     private String description;
+
+    @Column(nullable = false)
     private String images;
+
+    @Column(nullable = false)
     private String genre;
+
+    @Column(nullable = false)
     private String style;
 
     @ManyToMany
