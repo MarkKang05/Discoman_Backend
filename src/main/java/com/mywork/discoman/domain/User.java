@@ -1,6 +1,9 @@
 package com.mywork.discoman.domain;
 
-import lombok.Builder;
+import com.mywork.discoman.service.UserServiceImpl;
+import com.mywork.discoman.service.interfaces.UserService;
+import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -11,7 +14,10 @@ import java.util.Set;
 @Entity
 @Table(name = "user")
 @Builder
-public class User extends BaseTimeEntity implements UserDetails {
+@Getter
+@RequiredArgsConstructor
+@AllArgsConstructor
+public class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,39 +45,4 @@ public class User extends BaseTimeEntity implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "releasealbum_id"))
     private Set<ReleaseAlbum> wantList;
 
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public String getPassword() {
-        return null;
-    }
-
-    @Override
-    public String getUsername() {
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

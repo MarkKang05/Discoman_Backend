@@ -1,11 +1,14 @@
 package com.mywork.discoman.domain;
 
-import lombok.Builder;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Builder
+@Getter
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class Authority {
 
     @Id
