@@ -5,6 +5,7 @@ import com.mywork.discoman.domain.EnumRole;
 import com.mywork.discoman.domain.User;
 import com.mywork.discoman.dto.auth.RequestLoginUserDto;
 import com.mywork.discoman.dto.auth.RequestSaveUserDto;
+import com.mywork.discoman.dto.jwt.TokenDto;
 import com.mywork.discoman.jwt.JwtProvider;
 import com.mywork.discoman.repository.AuthorityRepository;
 import com.mywork.discoman.repository.UserRepository;
@@ -56,7 +57,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void loginUser(RequestLoginUserDto requestLoginUserDto) {
+    public TokenDto loginUser(RequestLoginUserDto requestLoginUserDto) {
 //        UsernamePasswordAuthenticationToken authenticationToken =  requestLoginUserDto.toAuthentication();
         String username = userRepository.findByEmail(requestLoginUserDto.getEmail()).getUsername();
         String password = requestLoginUserDto.getPassword();
@@ -65,15 +66,16 @@ public class UserServiceImpl implements UserService {
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(username, password);
 //        RequestLogin requestLogin;
+        String accessToken=null;
+        String refreshToken=null;
 
         try {
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            String accessToken = jwtProvider.createAccessToken(authentication);
-            String refreshToken = jwtProvider.createRefreshToken();
+            accessToken = jwtProvider.createAccessToken(authentication);
+            refreshToken = jwtProvider.createRefreshToken();
 //            TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
-
 //            RefreshToken refreshToken = new RefreshToken();
             log.debug("username::::: "+ username);
             log.debug("refreshToken::::: "+ refreshToken);
@@ -98,6 +100,10 @@ public class UserServiceImpl implements UserService {
         }
 //        return requestLogin;
 
+        return TokenDto.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
     }
 
     @Override
