@@ -1,16 +1,28 @@
 package com.mywork.discoman.domain;
 
+import lombok.*;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name = "artist")
+@Table(name = "artist"
+//    uniqueConstraints = {
+//        @UniqueConstraint(
+//                columnNames = {"name", "image"}
+//        )
+//    }
+)
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
 public class Artist {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @Column(nullable = false)

@@ -15,7 +15,6 @@ import java.util.Set;
 @Table(name = "user")
 @Builder
 @Getter
-@RequiredArgsConstructor
 @AllArgsConstructor
 public class User extends BaseTimeEntity {
 
