@@ -36,4 +36,8 @@ public class Artist {
     @Column(nullable = false)
     private String members;
 
+//    @ManyToOne
+//    @JoinColumn(name = "masteralbum_id")
+//    private MasterAlbum masterAlbum;
+
 }
