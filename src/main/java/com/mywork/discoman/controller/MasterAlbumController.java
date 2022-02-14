@@ -27,23 +27,23 @@ public class MasterAlbumController {
     private final MasterAlbumServiceImpl masterAlbumService;
 
     @GetMapping("")
-    public ResponseEntity<? extends BasicResponse> getAllLabels(){
-        List<MasterAlbum> albums = masterAlbumService.getAllMasterAlbums();
-        return ResponseEntity.ok(new CommonResponse<List<MasterAlbum>>(albums));
+    public ResponseEntity<? extends BasicResponse> getAllMAlbums(){
+        List<ResponseMasterAlbumDto> albumDtos = masterAlbumService.getAllMasterAlbums();
+        return ResponseEntity.ok(new CommonResponse<List<ResponseMasterAlbumDto>>(albumDtos));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<? extends BasicResponse> getLabel(@PathVariable Long id){
-        Optional<MasterAlbum> masterAlbum = masterAlbumService.getMasterAlbums(id);
-        if(masterAlbum.isEmpty()){
+    public ResponseEntity<? extends BasicResponse> getMAlbum(@PathVariable Long id){
+        ResponseMasterAlbumDto albumDto = masterAlbumService.getMasterAlbums(id);
+        if(albumDto == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ErrorResponse("NotFoundId"));
         }
-        return ResponseEntity.ok(new CommonResponse<MasterAlbum>(masterAlbum.get()));
+        return ResponseEntity.ok(new CommonResponse<ResponseMasterAlbumDto>(albumDto));
     }
 
     @PostMapping("")
-    public ResponseEntity<? extends BasicResponse> createLabel(@RequestBody CreateMasterAlbumsDto albumsDto){
+    public ResponseEntity<? extends BasicResponse> createMAlbum(@RequestBody CreateMasterAlbumsDto albumsDto){
 //        return ResponseEntity.ok(new CommonResponse<Label>(label));
 //        albumsDto.getMusics().forEach(s-> log.debug("id: "+s));
         ResponseMasterAlbumDto masterAlbum = masterAlbumService.createMasterAlbum(albumsDto);
@@ -51,8 +51,11 @@ public class MasterAlbumController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<? extends BasicResponse> deleteLabel(@PathVariable Long id){
-        masterAlbumService.deleteMasterAlbums(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<? extends BasicResponse> deleteMAlbum(@PathVariable Long id){
+        if( masterAlbumService.deleteMasterAlbums(id) ){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponse("NotFoundId"));
     }
 }

@@ -12,10 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -26,12 +23,29 @@ public class MasterAlbumServiceImpl {
     private final MusicRepository musicRepository;
     private final ArtistRepository artistRepository;
 
-    public List<MasterAlbum>  getAllMasterAlbums(){
-        return masterAlbumRepository.findAll();
+    public List<ResponseMasterAlbumDto>  getAllMasterAlbums(){
+        List<MasterAlbum> all = masterAlbumRepository.findAll();
+        List<ResponseMasterAlbumDto> albumDtos = new ArrayList<>();
+
+        all.forEach(s-> {
+            List<Long> musics = new ArrayList<>();
+            s.getMusics().forEach(m-> musics.add(m.getId()) );
+            albumDtos.add(new ResponseMasterAlbumDto(s, s.getArtist().getId(), musics));
+        });
+        return albumDtos;
+//        return masterAlbumRepository.findAll();
     }
 
-    public Optional<MasterAlbum> getMasterAlbums(Long id){
-        return masterAlbumRepository.findById(id);
+    public ResponseMasterAlbumDto getMasterAlbums(Long id){
+        if (!masterAlbumRepository.existsById(id))
+            return null;
+        MasterAlbum masterAlbum = masterAlbumRepository.findById(id).get();
+
+        List<Long> musics = new ArrayList<>();
+        masterAlbum.getMusics().forEach(m-> musics.add(m.getId()) );
+        return new ResponseMasterAlbumDto(
+                masterAlbum, masterAlbum.getArtist().getId(), musics
+                );
     }
 
     public ResponseMasterAlbumDto createMasterAlbum(CreateMasterAlbumsDto albumsDto){
@@ -48,14 +62,15 @@ public class MasterAlbumServiceImpl {
 
         MasterAlbum save = masterAlbumRepository.save(masterAlbum);
 
-        ResponseMasterAlbumDto responseMasterAlbumDto= new ResponseMasterAlbumDto(save);
-        responseMasterAlbumDto.setArtist(albumsDto.getArtist());
-        responseMasterAlbumDto.setMusics(albumsDto.getMusics());
+        ResponseMasterAlbumDto responseMasterAlbumDto= new ResponseMasterAlbumDto(save, albumsDto.getArtist(), albumsDto.getMusics());
 
         return responseMasterAlbumDto;
     }
 
-    public void deleteMasterAlbums(Long id) {
+    public boolean deleteMasterAlbums(Long id) {
+        if (!masterAlbumRepository.existsById(id) )
+            return false;
        masterAlbumRepository.deleteById(id);
+       return true;
     }
 }
