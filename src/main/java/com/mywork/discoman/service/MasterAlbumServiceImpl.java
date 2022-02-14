@@ -3,7 +3,7 @@ package com.mywork.discoman.service;
 import com.mywork.discoman.domain.Artist;
 import com.mywork.discoman.domain.MasterAlbum;
 import com.mywork.discoman.domain.Music;
-import com.mywork.discoman.dto.CreateMasterAlbumsDto;
+import com.mywork.discoman.dto.RequestMasterAlbumsDto;
 import com.mywork.discoman.dto.ResponseMasterAlbumDto;
 import com.mywork.discoman.repository.ArtistRepository;
 import com.mywork.discoman.repository.MusicRepository;
@@ -48,7 +48,7 @@ public class MasterAlbumServiceImpl {
                 );
     }
 
-    public ResponseMasterAlbumDto createMasterAlbum(CreateMasterAlbumsDto albumsDto){
+    public ResponseMasterAlbumDto createMasterAlbum(RequestMasterAlbumsDto albumsDto){
         MasterAlbum masterAlbum = albumsDto.toEntity();
 
         Artist artist = artistRepository.findById( albumsDto.getArtist() ).get();

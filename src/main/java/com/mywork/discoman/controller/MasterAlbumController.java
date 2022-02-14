@@ -1,9 +1,6 @@
 package com.mywork.discoman.controller;
 
-import com.mywork.discoman.domain.Label;
-import com.mywork.discoman.domain.MasterAlbum;
-import com.mywork.discoman.dto.CreateLabelDto;
-import com.mywork.discoman.dto.CreateMasterAlbumsDto;
+import com.mywork.discoman.dto.RequestMasterAlbumsDto;
 import com.mywork.discoman.dto.ResponseMasterAlbumDto;
 import com.mywork.discoman.response.BasicResponse;
 import com.mywork.discoman.response.CommonResponse;
@@ -16,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -43,7 +39,7 @@ public class MasterAlbumController {
     }
 
     @PostMapping("")
-    public ResponseEntity<? extends BasicResponse> createMAlbum(@RequestBody CreateMasterAlbumsDto albumsDto){
+    public ResponseEntity<? extends BasicResponse> createMAlbum(@RequestBody RequestMasterAlbumsDto albumsDto){
 //        return ResponseEntity.ok(new CommonResponse<Label>(label));
 //        albumsDto.getMusics().forEach(s-> log.debug("id: "+s));
         ResponseMasterAlbumDto masterAlbum = masterAlbumService.createMasterAlbum(albumsDto);

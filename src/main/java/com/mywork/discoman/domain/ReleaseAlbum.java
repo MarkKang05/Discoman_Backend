@@ -1,9 +1,16 @@
 package com.mywork.discoman.domain;
 
+import lombok.*;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "releasealbum")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class ReleaseAlbum {
 
     @Id
