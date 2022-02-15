@@ -2,7 +2,14 @@ spring:
   output:
     ansi:
       enabled: ALWAYS
-#  mustache:
+  servlet:
+    multipart:
+    file-size-threshold: 1MB
+    location: /Users/markkang05/Develop/Discoman/image
+    max-file-size: 100MB
+    max-request-size: 100MB
+
+  #  mustache:
 #    suffix: .html
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver

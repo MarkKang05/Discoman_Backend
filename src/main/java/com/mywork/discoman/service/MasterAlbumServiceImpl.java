@@ -48,6 +48,7 @@ public class MasterAlbumServiceImpl {
                 );
     }
 
+    // TODO: 2022/02/15 image path dto에서 제거
     public ResponseMasterAlbumDto createMasterAlbum(RequestMasterAlbumsDto albumsDto){
         MasterAlbum masterAlbum = albumsDto.toEntity();
 
