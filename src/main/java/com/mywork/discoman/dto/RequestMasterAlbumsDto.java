@@ -12,7 +12,7 @@ public class RequestMasterAlbumsDto {
 
     private String title;
     private String description;
-    private String images;
+//    private String images;
     private String genre;
     private String style;
     private Long artist;
@@ -23,7 +23,7 @@ public class RequestMasterAlbumsDto {
         return MasterAlbum.builder()
                 .title(title)
                 .description(description)
-                .images(images)
+//                .images(images)
                 .genre(genre)
                 .style(style)
                 .build();

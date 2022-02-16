@@ -28,10 +28,16 @@ public class MasterAlbumServiceImpl {
         List<ResponseMasterAlbumDto> albumDtos = new ArrayList<>();
 
         all.forEach(s-> {
-            List<Long> musics = new ArrayList<>();
-            s.getMusics().forEach(m-> musics.add(m.getId()) );
-            albumDtos.add(new ResponseMasterAlbumDto(s, s.getArtist().getId(), musics));
+            s.getMusics().forEach(v->{
+                v.setMasterAlbums(null);
+            });
+            albumDtos.add(new ResponseMasterAlbumDto(s));
         });
+//        all.forEach(s-> {
+//            List<Long> musics = new ArrayList<>();
+//            s.getMusics().forEach(m-> musics.add(m.getId()) );
+//            albumDtos.add(new ResponseMasterAlbumDto(s, s.getArtist().getId(), musics));
+//        });
         return albumDtos;
 //        return masterAlbumRepository.findAll();
     }
@@ -48,7 +54,6 @@ public class MasterAlbumServiceImpl {
                 );
     }
 
-    // TODO: 2022/02/15 image path dto에서 제거
     public ResponseMasterAlbumDto createMasterAlbum(RequestMasterAlbumsDto albumsDto){
         MasterAlbum masterAlbum = albumsDto.toEntity();
 

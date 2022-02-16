@@ -29,7 +29,6 @@ public class MasterAlbum {
     @Column(nullable = false)
     private String description;
 
-    @Column(nullable = false)
     private String images;
 
     @Column(nullable = false)

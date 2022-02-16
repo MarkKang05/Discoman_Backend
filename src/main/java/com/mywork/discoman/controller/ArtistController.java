@@ -1,17 +1,21 @@
 package com.mywork.discoman.controller;
 
 import com.mywork.discoman.domain.Artist;
+import com.mywork.discoman.domain.MasterAlbum;
 import com.mywork.discoman.dto.CreateArtistDto;
 import com.mywork.discoman.response.BasicResponse;
 import com.mywork.discoman.response.CommonResponse;
 import com.mywork.discoman.response.ErrorResponse;
 import com.mywork.discoman.service.ArtistServiceImpl;
+import com.mywork.discoman.service.RequestImageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileOutputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +26,7 @@ import java.util.Optional;
 public class ArtistController {
 
     private final ArtistServiceImpl artistService;
+    private final RequestImageService requestImageService;
 
     @GetMapping("")
     public ResponseEntity<? extends BasicResponse> getAllArtists(){
@@ -55,4 +60,13 @@ public class ArtistController {
         return ResponseEntity.noContent().build();
     }
 
+
+    @PostMapping("/image")
+    public ResponseEntity<? extends BasicResponse> fileUpload(@RequestParam("file") MultipartFile multipartFile, @RequestParam("id") Long id){
+        if(!requestImageService.artistImageUpload(multipartFile, id)){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("Failed Image Upload", ""+HttpStatus.INTERNAL_SERVER_ERROR));
+        }
+        return ResponseEntity.ok(new CommonResponse<String>("success Image Upload"));
+    }
 }

@@ -16,6 +16,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 public class Artist {
 
     @Id
@@ -28,7 +29,7 @@ public class Artist {
     @Column(nullable = false)
     private String description;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private String image;
 
     private String website;
