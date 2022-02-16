@@ -49,8 +49,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             refreshToken = null;
         }
 
-        log.debug("AccessToken: "+ accessToken);
-        log.debug("RefreshToken: "+ refreshToken);
+//        log.debug("AccessToken: "+ accessToken);
+//        log.debug("RefreshToken: "+ refreshToken);
 
         if(accessToken != null && jwtProvider.validateJwtToken(accessToken)){
             Authentication authentication = jwtProvider.getAuthentication(accessToken);

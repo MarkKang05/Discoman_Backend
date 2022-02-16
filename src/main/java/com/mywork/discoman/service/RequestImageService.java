@@ -19,15 +19,15 @@ public class RequestImageService {
     private final MasterAlbumRepository MAlbumRepository;
 
     public boolean artistImageUpload(MultipartFile multipartFile, Long id){
-
-        Artist artist = artistRepository.findById(id).get();
-        artist.setImage("artist_cover_"+id);
-        artistRepository.save(artist);
         String fileExtension = multipartFile.getContentType();
         fileExtension = fileExtension.substring(fileExtension.indexOf("/")+1);
+
+        Artist artist = artistRepository.findById(id).get();
+        artist.setImage("artist_cover_"+id+"."+fileExtension);
+        artistRepository.save(artist);
         try {
             FileOutputStream writer = new FileOutputStream("/Users/markkang05/Develop/Discoman/image/artists/"
-                    + artist.getImage()+ "." + fileExtension);
+                    + artist.getImage());
             writer.write(multipartFile.getBytes());
             writer.close();
         } catch (Exception e){
@@ -38,15 +38,16 @@ public class RequestImageService {
     }
 
     public boolean masterImageUpload(MultipartFile multipartFile, Long id){
-
-        MasterAlbum masterAlbum = MAlbumRepository.findById(id).get();
-        masterAlbum.setImages("artist_cover_"+id);
-        MAlbumRepository.save(masterAlbum);
         String fileExtension = multipartFile.getContentType();
         fileExtension = fileExtension.substring(fileExtension.indexOf("/")+1);
+
+        MasterAlbum masterAlbum = MAlbumRepository.findById(id).get();
+        masterAlbum.setImages("artist_cover_"+id+"."+fileExtension);
+        MAlbumRepository.save(masterAlbum);
+
         try {
             FileOutputStream writer = new FileOutputStream("/Users/markkang05/Develop/Discoman/image/masters/"
-                    + masterAlbum.getImages()+ "." + fileExtension);
+                    + masterAlbum.getImages());
             writer.write(multipartFile.getBytes());
             writer.close();
         } catch (Exception e){

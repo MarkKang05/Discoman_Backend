@@ -28,9 +28,7 @@ public class MasterAlbumServiceImpl {
         List<ResponseMasterAlbumDto> albumDtos = new ArrayList<>();
 
         all.forEach(s-> {
-            s.getMusics().forEach(v->{
-                v.setMasterAlbums(null);
-            });
+            s.getMusics().forEach(v-> v.setMasterAlbums(null));
             albumDtos.add(new ResponseMasterAlbumDto(s));
         });
 //        all.forEach(s-> {
@@ -47,11 +45,10 @@ public class MasterAlbumServiceImpl {
             return null;
         MasterAlbum masterAlbum = masterAlbumRepository.findById(id).get();
 
-        List<Long> musics = new ArrayList<>();
-        masterAlbum.getMusics().forEach(m-> musics.add(m.getId()) );
-        return new ResponseMasterAlbumDto(
-                masterAlbum, masterAlbum.getArtist().getId(), musics
-                );
+//        List<Long> musics = new ArrayList<>();
+//        masterAlbum.getMusics().forEach(m-> musics.add(m.getId()) );
+        masterAlbum.getMusics().forEach(m -> m.setMasterAlbums(null));
+        return new ResponseMasterAlbumDto(masterAlbum);
     }
 
     public ResponseMasterAlbumDto createMasterAlbum(RequestMasterAlbumsDto albumsDto){
@@ -68,7 +65,8 @@ public class MasterAlbumServiceImpl {
 
         MasterAlbum save = masterAlbumRepository.save(masterAlbum);
 
-        ResponseMasterAlbumDto responseMasterAlbumDto= new ResponseMasterAlbumDto(save, albumsDto.getArtist(), albumsDto.getMusics());
+        ResponseMasterAlbumDto responseMasterAlbumDto
+                = new ResponseMasterAlbumDto(save, albumsDto.getArtist(), albumsDto.getMusics());
 
         return responseMasterAlbumDto;
     }
