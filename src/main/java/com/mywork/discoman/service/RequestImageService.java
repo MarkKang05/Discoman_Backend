@@ -42,7 +42,7 @@ public class RequestImageService {
         fileExtension = fileExtension.substring(fileExtension.indexOf("/")+1);
 
         MasterAlbum masterAlbum = MAlbumRepository.findById(id).get();
-        masterAlbum.setImages("artist_cover_"+id+"."+fileExtension);
+        masterAlbum.setImages("master_cover_"+id+"."+fileExtension);
         MAlbumRepository.save(masterAlbum);
 
         try {
