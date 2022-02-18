@@ -20,6 +20,14 @@ public class ReleaseAlbumController {
 
     private final ReleaseAlbumServiceImpl releaseAlbumService;
 
+    @GetMapping("/findByMAlbumId/{id}")
+    public ResponseEntity<? extends BasicResponse> getAllRAlbumByMAlbumId(@PathVariable("id") Long id){
+        List<ResponseReleaseAlbumDto> albumDtos = releaseAlbumService.getAllRAlbumByMAlbumId(id);
+        return ResponseEntity.ok().body(new CommonResponse<List<ResponseReleaseAlbumDto>>(albumDtos));
+
+    }
+
+    // CRUD API
     @GetMapping("")
     public ResponseEntity<? extends BasicResponse> getAllRAlbums(){
         List<ResponseReleaseAlbumDto> albumDtos = releaseAlbumService.getAllRAlbum();

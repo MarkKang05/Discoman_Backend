@@ -22,11 +22,14 @@ public class ReleaseAlbumServiceImpl {
     private final LabelRepository labelRepository;
     private final ReleaseAlbumRepository RAlbumRepository;
 
-//    public ResponseReleaseAlbumDto getRAlbumByMAlbumId(Long mAlbumId){
-//        MasterAlbum masterAlbum = MAlbumRepository.findById(mAlbumId).get();
-//    }
+    public List<ResponseReleaseAlbumDto> getAllRAlbumByMAlbumId(Long mAlbumId){
+        List<ResponseReleaseAlbumDto> albumDtos = new ArrayList<>();
+        List<ReleaseAlbum> releaseAlbums = RAlbumRepository.findByMasterAlbumId(mAlbumId);
+        releaseAlbums.forEach(r -> albumDtos.add(new ResponseReleaseAlbumDto(r)));
+        return albumDtos;
+    }
 
-    // CRUD API
+    // CRUD SERVICE
     public List<ResponseReleaseAlbumDto> getAllRAlbum(){
         List<ReleaseAlbum> releaseAlbums = RAlbumRepository.findAll();
         List<ResponseReleaseAlbumDto> albumDtos = new ArrayList<>();
