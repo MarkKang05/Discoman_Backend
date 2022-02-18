@@ -45,9 +45,6 @@ public class MasterAlbumServiceImpl {
             return null;
         MasterAlbum masterAlbum = masterAlbumRepository.findById(id).get();
 
-//        List<Long> musics = new ArrayList<>();
-//        masterAlbum.getMusics().forEach(m-> musics.add(m.getId()) );
-        masterAlbum.getMusics().forEach(m -> m.setMasterAlbums(null));
         return new ResponseMasterAlbumDto(masterAlbum);
     }
 
@@ -58,7 +55,7 @@ public class MasterAlbumServiceImpl {
 
         Set<Music> musicSet = new HashSet<>();
         List<Long> musics = albumsDto.getMusics();
-        musics.forEach(s-> musicSet.add( musicRepository.getById(s) ) );
+        musics.forEach(s-> musicSet.add( musicRepository.findById(s).get() ) );
 
         masterAlbum.setMusics(musicSet);
         masterAlbum.setArtist(artist);
@@ -66,7 +63,33 @@ public class MasterAlbumServiceImpl {
         MasterAlbum save = masterAlbumRepository.save(masterAlbum);
 
         ResponseMasterAlbumDto responseMasterAlbumDto
-                = new ResponseMasterAlbumDto(save, albumsDto.getArtist(), albumsDto.getMusics());
+                = new ResponseMasterAlbumDto(save);
+
+        return responseMasterAlbumDto;
+    }
+
+    public ResponseMasterAlbumDto modifyMAlbum(Long id, RequestMasterAlbumsDto albumsDto) {
+        if ( !masterAlbumRepository.existsById(id))
+            return null;
+        if( !artistRepository.existsById(albumsDto.getArtist()) )
+            return null;
+
+        MasterAlbum masterAlbum = albumsDto.toEntity();
+        masterAlbum.setId(id);
+
+        Artist artist = artistRepository.findById( albumsDto.getArtist() ).get();
+
+        Set<Music> musicSet = new HashSet<>();
+        List<Long> musics = albumsDto.getMusics();
+        musics.forEach(s-> musicSet.add( musicRepository.findById(s).get() ) );
+
+        masterAlbum.setMusics(musicSet);
+        masterAlbum.setArtist(artist);
+
+        MasterAlbum save = masterAlbumRepository.save(masterAlbum);
+
+        ResponseMasterAlbumDto responseMasterAlbumDto
+                = new ResponseMasterAlbumDto(save);
 
         return responseMasterAlbumDto;
     }

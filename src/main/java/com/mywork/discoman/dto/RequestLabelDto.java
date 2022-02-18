@@ -4,7 +4,7 @@ import com.mywork.discoman.domain.Label;
 import lombok.Getter;
 
 @Getter
-public class CreateLabelDto {
+public class RequestLabelDto {
     private String name;
     private String description;
     private String contactInfo;

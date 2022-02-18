@@ -44,6 +44,14 @@ public class ReleaseAlbumController {
         return ResponseEntity.ok(new CommonResponse<ResponseReleaseAlbumDto>(releaseAlbumDto));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<? extends BasicResponse> modifyRAlbum(
+            @PathVariable Long id,
+            @RequestBody RequestReleaseAlbumDto albumsDto){
+        ResponseReleaseAlbumDto releaseAlbumDto = releaseAlbumService.modifyRAlbum(id, albumsDto);
+        return ResponseEntity.ok(new CommonResponse<ResponseReleaseAlbumDto>(releaseAlbumDto));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<? extends BasicResponse> deleteMAlbum(@PathVariable Long id){
         if( releaseAlbumService.deleteRAlbum(id) ){

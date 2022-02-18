@@ -44,6 +44,8 @@ public class ResponseMasterAlbumDto {
         artist = masterAlbum.getArtist();
 
         List<Music> musicList = new ArrayList<>(masterAlbum.getMusics());
+        musicList.forEach(m -> m.setMasterAlbums(null));
+
         musics = musicList;
     }
 }

@@ -1,8 +1,7 @@
 package com.mywork.discoman.controller;
 
 import com.mywork.discoman.domain.Artist;
-import com.mywork.discoman.domain.MasterAlbum;
-import com.mywork.discoman.dto.CreateArtistDto;
+import com.mywork.discoman.dto.RequestArtistDto;
 import com.mywork.discoman.response.BasicResponse;
 import com.mywork.discoman.response.CommonResponse;
 import com.mywork.discoman.response.ErrorResponse;
@@ -15,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileOutputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,12 +41,22 @@ public class ArtistController {
     }
 
     @PostMapping("")
-    public ResponseEntity<? extends BasicResponse> createArtist(@RequestBody CreateArtistDto createArtistDto){
+    public ResponseEntity<? extends BasicResponse> createArtist(@RequestBody RequestArtistDto createArtistDto){
         Artist artist = artistService.createArtist(createArtistDto);
         if (artist == null)
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("exist same name Artist"));
 
         return ResponseEntity.ok(new CommonResponse<Artist>(artist));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<? extends BasicResponse> modifyArtist(
+            @PathVariable("id") Long id,
+            @RequestBody RequestArtistDto requestArtistDto){
+        Artist artist = artistService.modifyArtist(id, requestArtistDto);
+        if(artist == null)
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("Not found id"));
+        return ResponseEntity.ok().body(new CommonResponse<Artist>(artist));
     }
 
     @DeleteMapping("/{id}")

@@ -1,7 +1,8 @@
 package com.mywork.discoman.controller;
 
+import com.mywork.discoman.domain.Artist;
 import com.mywork.discoman.domain.Label;
-import com.mywork.discoman.dto.CreateLabelDto;
+import com.mywork.discoman.dto.RequestLabelDto;
 import com.mywork.discoman.response.BasicResponse;
 import com.mywork.discoman.response.CommonResponse;
 import com.mywork.discoman.response.ErrorResponse;
@@ -38,9 +39,19 @@ public class LabelController {
     }
 
     @PostMapping("")
-    public ResponseEntity<? extends BasicResponse> createLabel(@RequestBody CreateLabelDto labelDto){
+    public ResponseEntity<? extends BasicResponse> createLabel(@RequestBody RequestLabelDto labelDto){
         Label label = labelService.saveLabel(labelDto);
         return ResponseEntity.ok(new CommonResponse<Label>(label));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<? extends BasicResponse> modifyLabel(
+            @PathVariable("id") Long id,
+            @RequestBody RequestLabelDto requestLabelDto){
+        Label label = labelService.modifyArtist(id, requestLabelDto);
+        if(label == null)
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("Not found id"));
+        return ResponseEntity.ok().body(new CommonResponse<Label>(label));
     }
 
     @DeleteMapping("/{id}")

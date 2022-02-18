@@ -28,7 +28,7 @@ public class ReleaseAlbumServiceImpl {
         List<ResponseReleaseAlbumDto> albumDtos = new ArrayList<>();
 
         releaseAlbums.forEach(s-> {
-            albumDtos.add(new ResponseReleaseAlbumDto(s, s.getMasterAlbum().getId(), s.getLabel().getId()));
+            albumDtos.add(new ResponseReleaseAlbumDto(s));
         });
 
         return albumDtos;
@@ -46,6 +46,20 @@ public class ReleaseAlbumServiceImpl {
         ReleaseAlbum releaseAlbum = albumDto.toEntity();
 //        if (MAlbumRepository.existsById( albumDto.getMasterAlbum()) || labelRepository.existsById(albumDto.getLabel()) ){ re
 //        }
+
+        MasterAlbum masterAlbum = MAlbumRepository.findById(albumDto.getMasterAlbum()).get();
+        Label label = labelRepository.findById(albumDto.getLabel()).get();
+        releaseAlbum.setMasterAlbum(masterAlbum);
+        releaseAlbum.setLabel(label);
+
+        ReleaseAlbum save = RAlbumRepository.save(releaseAlbum);
+
+        return new ResponseReleaseAlbumDto(save);
+    }
+
+    public ResponseReleaseAlbumDto modifyRAlbum(Long id, RequestReleaseAlbumDto albumDto){
+        ReleaseAlbum releaseAlbum = albumDto.toEntity();
+        releaseAlbum.setId(id);
 
         MasterAlbum masterAlbum = MAlbumRepository.findById(albumDto.getMasterAlbum()).get();
         Label label = labelRepository.findById(albumDto.getLabel()).get();

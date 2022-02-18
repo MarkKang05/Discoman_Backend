@@ -49,6 +49,16 @@ public class MasterAlbumController {
         return ResponseEntity.ok(new CommonResponse<ResponseMasterAlbumDto>(masterAlbum));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<? extends BasicResponse> modifyMAlbum(
+            @PathVariable Long id,
+            @RequestBody RequestMasterAlbumsDto albumsDto){
+        ResponseMasterAlbumDto masterAlbum = masterAlbumService.modifyMAlbum(id, albumsDto);
+        if(masterAlbum == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("Error"));
+        return ResponseEntity.ok(new CommonResponse<ResponseMasterAlbumDto>(masterAlbum));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<? extends BasicResponse> deleteMAlbum(@PathVariable Long id){
         if( masterAlbumService.deleteMasterAlbums(id) ){
