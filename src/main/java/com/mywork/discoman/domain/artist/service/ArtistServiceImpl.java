@@ -15,6 +15,7 @@ public class ArtistServiceImpl {
 
     private final ArtistRepository artistRepository;
 
+    // TODO: 2022/02/19 Refactoring Optional
     public List<Artist> getAllArtist(){
         List<Artist> artists = artistRepository.findAll();
         return artists;
