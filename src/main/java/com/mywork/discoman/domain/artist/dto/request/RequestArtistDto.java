@@ -2,8 +2,10 @@ package com.mywork.discoman.domain.artist.dto.request;
 
 import com.mywork.discoman.domain.artist.domain.Artist;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class RequestArtistDto {
     private String name;
     private String description;
