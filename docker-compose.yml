@@ -1,0 +1,13 @@
+version: "3.4"
+
+services:
+  testSpring:
+    image: disco_backend_image
+    container_name: testSpringCon
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - .:/var/discoman/Discoman_Backend
+    links:
+      - local-db:local-db
