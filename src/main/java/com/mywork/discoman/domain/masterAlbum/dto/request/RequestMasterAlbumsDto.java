@@ -1,9 +1,12 @@
 package com.mywork.discoman.domain.masterAlbum.dto.request;
 
 import com.mywork.discoman.domain.masterAlbum.domain.MasterAlbum;
+import com.mywork.discoman.domain.music.domain.Music;
+import com.mywork.discoman.domain.music.dto.RequestMusicDto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -16,7 +19,7 @@ public class RequestMasterAlbumsDto {
     private String genre;
     private String style;
     private Long artist;
-    private List<Long> musics;
+    private List<RequestMusicDto> musics;
 
     public MasterAlbum toEntity(){
 
@@ -27,6 +30,14 @@ public class RequestMasterAlbumsDto {
                 .genre(genre)
                 .style(style)
                 .build();
+    }
+
+    public List<Music> toMusicEntity(){
+        List<Music> musicList = new ArrayList<>();
+
+        musics.forEach(m-> musicList.add(m.toEntity()));
+
+        return musicList;
     }
 
 }

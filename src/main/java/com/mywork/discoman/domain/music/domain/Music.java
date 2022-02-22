@@ -2,6 +2,7 @@ package com.mywork.discoman.domain.music.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.mywork.discoman.domain.masterAlbum.domain.MasterAlbum;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,10 +15,15 @@ import java.util.Set;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Builder
 public class Music {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String disk;
+
+    private int index;
 
     @Column(nullable = false)
     private String name;
@@ -25,6 +31,4 @@ public class Music {
     @Column(nullable = false)
     private int duration;
 
-    @ManyToMany(mappedBy = "musics")
-    private Set<MasterAlbum> masterAlbums = new HashSet<>();
 }
