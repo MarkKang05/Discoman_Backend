@@ -29,4 +29,8 @@ public class MusicService {
 //
 //        musicRepository.save(music)
 //    }
+
+    public Music createMusic(RequestMusicDto musicDto){
+        return musicRepository.save(musicDto.toEntity());
+    }
 }

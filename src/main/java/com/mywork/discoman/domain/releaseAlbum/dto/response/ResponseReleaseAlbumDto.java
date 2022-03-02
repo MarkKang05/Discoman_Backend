@@ -36,7 +36,7 @@ public class ResponseReleaseAlbumDto {
 //    }
 
     public ResponseReleaseAlbumDto(ReleaseAlbum album) {
-        album.getMasterAlbum().getMusics().forEach(m-> m.setMasterAlbums(null));
+//        album.getMasterAlbum().getMusics().forEach(m-> m.setMasterAlbums(null));
 
         this.id = album.getId();
         this.masterAlbum = album.getMasterAlbum();

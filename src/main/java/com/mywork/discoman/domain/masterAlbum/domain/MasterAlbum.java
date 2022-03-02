@@ -37,7 +37,7 @@ public class MasterAlbum {
     @Column(nullable = false)
     private String style;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "masterAlbum_id")
     private Set<Music> musics = new HashSet<>();
 

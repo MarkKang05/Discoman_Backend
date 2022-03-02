@@ -2,9 +2,7 @@ package com.mywork.discoman.domain.music.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.mywork.discoman.domain.masterAlbum.domain.MasterAlbum;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -14,7 +12,8 @@ import java.util.Set;
 @Table(name = "music")
 @Getter
 @Setter
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Music {
     @Id
@@ -23,6 +22,7 @@ public class Music {
 
     private String disk;
 
+    @Column(name = "m_index", nullable = false)
     private int index;
 
     @Column(nullable = false)
