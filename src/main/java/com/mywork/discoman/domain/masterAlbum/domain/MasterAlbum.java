@@ -37,10 +37,8 @@ public class MasterAlbum {
     @Column(nullable = false)
     private String style;
 
-    @ManyToMany
-    @JoinTable(name = "album_music",
-                joinColumns = @JoinColumn(name = "masteralbum_id"),
-                inverseJoinColumns = @JoinColumn(name = "music_id"))
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "masterAlbum_id")
     private Set<Music> musics = new HashSet<>();
 
     // review

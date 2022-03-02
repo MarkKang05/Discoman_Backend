@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -21,7 +22,7 @@ public class ResponseMasterAlbumDto {
     private String genre;
     private String style;
     private Artist artist;
-    private List<Music> musics;
+    private Set<Music> musics;
 
     public ResponseMasterAlbumDto(MasterAlbum masterAlbum, Long artistId, List<Long> musics) {
         id = masterAlbum.getId();
@@ -43,9 +44,7 @@ public class ResponseMasterAlbumDto {
         style = masterAlbum.getStyle();
         artist = masterAlbum.getArtist();
 
-        List<Music> musicList = new ArrayList<>(masterAlbum.getMusics());
-        musicList.forEach(m -> m.setMasterAlbums(null));
+        musics = masterAlbum.getMusics();
 
-        musics = musicList;
     }
 }

@@ -8,6 +8,7 @@ import com.mywork.discoman.domain.masterAlbum.dto.response.ResponseMasterAlbumDt
 import com.mywork.discoman.domain.artist.dao.ArtistRepository;
 import com.mywork.discoman.domain.music.dao.MusicRepository;
 import com.mywork.discoman.domain.masterAlbum.dao.MasterAlbumRepository;
+import com.mywork.discoman.domain.music.dto.RequestMusicDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,20 +25,14 @@ public class MasterAlbumServiceImpl {
     private final ArtistRepository artistRepository;
 
     public List<ResponseMasterAlbumDto>  getAllMasterAlbums(){
-        List<MasterAlbum> all = masterAlbumRepository.findAll();
+        List<MasterAlbum> masterAlbums = masterAlbumRepository.findAll();
         List<ResponseMasterAlbumDto> albumDtos = new ArrayList<>();
 
-        all.forEach(s-> {
-            s.getMusics().forEach(v-> v.setMasterAlbums(null));
-            albumDtos.add(new ResponseMasterAlbumDto(s));
+        masterAlbums.forEach(masterAlbum -> {
+            albumDtos.add(new ResponseMasterAlbumDto(masterAlbum));
         });
-//        all.forEach(s-> {
-//            List<Long> musics = new ArrayList<>();
-//            s.getMusics().forEach(m-> musics.add(m.getId()) );
-//            albumDtos.add(new ResponseMasterAlbumDto(s, s.getArtist().getId(), musics));
-//        });
+
         return albumDtos;
-//        return masterAlbumRepository.findAll();
     }
 
     public ResponseMasterAlbumDto getMasterAlbums(Long id){
@@ -54,11 +49,13 @@ public class MasterAlbumServiceImpl {
         Artist artist = artistRepository.findById( albumsDto.getArtist() ).get();
 
         Set<Music> musicSet = new HashSet<>();
-        List<Long> musics = albumsDto.getMusics();
-        musics.forEach(s-> musicSet.add( musicRepository.findById(s).get() ) );
+        Set<Music> musics = albumsDto.toMusicEntity();
+        musics.forEach(music -> {
+            musicSet.add(musicRepository.save(music));
+        });
 
-        masterAlbum.setMusics(musicSet);
         masterAlbum.setArtist(artist);
+        masterAlbum.setMusics(musicSet);
 
         MasterAlbum save = masterAlbumRepository.save(masterAlbum);
 
@@ -80,8 +77,10 @@ public class MasterAlbumServiceImpl {
         Artist artist = artistRepository.findById( albumsDto.getArtist() ).get();
 
         Set<Music> musicSet = new HashSet<>();
-        List<Long> musics = albumsDto.getMusics();
-        musics.forEach(s-> musicSet.add( musicRepository.findById(s).get() ) );
+        Set<Music> musics = albumsDto.toMusicEntity();
+        musics.forEach(music -> {
+            musicSet.add(musicRepository.save(music));
+        });
 
         masterAlbum.setMusics(musicSet);
         masterAlbum.setArtist(artist);
