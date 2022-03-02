@@ -36,7 +36,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        JwtToken jwtToken = parseToken(request);
+        JwtToken jwtToken = jwtProvider.parseToken(request);
         String accessToken;
         String refreshToken;
         try {
@@ -85,25 +85,4 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     }
 
-    private JwtToken parseToken(HttpServletRequest request) {
-        Cookie accessTokenCookie = WebUtils.getCookie(request, "accessToken");
-        Cookie refreshTokenCookie = WebUtils.getCookie(request, "refreshToken");
-        String accessToken=null;
-        String refreshToken=null;
-
-        try {
-            accessToken = accessTokenCookie.getValue();
-        } catch (Exception e){}
-
-        try {
-            refreshToken= refreshTokenCookie.getValue();
-        } catch (NullPointerException e){}
-
-        if (StringUtils.hasText(accessToken) && StringUtils.hasText(refreshToken))
-            return JwtToken.builder()
-                    .accessToken(accessToken)
-                    .refreshToken(refreshToken)
-                    .build();
-        return null;
-    }
 }

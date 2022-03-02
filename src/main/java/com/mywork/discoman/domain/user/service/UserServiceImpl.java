@@ -28,6 +28,8 @@ import java.util.*;
 @Slf4j
 public class UserServiceImpl implements UserService {
 
+    // TODO: 2022/02/07 Edit User, Insert Image
+
     private final UserRepository userRepository;
     private final AuthorityRepository authorityRepository;
     private final PasswordEncoder passwordEncoder;
@@ -92,7 +94,7 @@ public class UserServiceImpl implements UserService {
 //            System.out.println("password error");
 //            requestLogin = new RequestLogin("password");
         } catch (Exception e){
-            log.debug(""+e);
+            log.debug("Login Error:: "+e);
         }
 //        return requestLogin;
 
@@ -120,6 +122,13 @@ public class UserServiceImpl implements UserService {
 //        authorities.forEach(authority -> collection.add(authority));
 //        return collection;
     }
+
+    public List<User> getAllUsers(){
+        return userRepository.findAll();
+    }
+
+
+    // TODO: 2022/03/02 권한 추가, 제거, 보기, 전체 보기
 
 
 }

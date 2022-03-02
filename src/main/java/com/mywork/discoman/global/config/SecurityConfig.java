@@ -19,6 +19,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Configurable
@@ -77,12 +78,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable()
                 .authorizeRequests()
 //                .antMatchers("/user/**").hasRole("USER")
-//                .antMatchers("/**").permitAll()
+                .antMatchers("/auth/admin/**").hasRole("ADMIN")
                 .anyRequest().permitAll()
+//                .antMatchers("/**").permitAll()
             .and()
                 .logout()
                 .logoutUrl("/logout")
-                .addLogoutHandler(customLogoutHandlerBean());
+                .addLogoutHandler(customLogoutHandlerBean())
+                .logoutSuccessHandler((httpServletRequest, httpServletResponse, authentication) -> {
+                    httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+                });
 
         http.addFilterBefore(authenticationJwtAuthFilter(), UsernamePasswordAuthenticationFilter.class);
     }

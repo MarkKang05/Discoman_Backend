@@ -12,6 +12,7 @@ import java.util.Set;
 @Builder
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class User extends BaseTimeEntity {
 
     @Id

@@ -34,6 +34,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         UserDetails userDetails = createUserDetails(user);
         log.debug("DB_username: "+ userDetails.getUsername());
         log.debug("DB_password: "+ userDetails.getPassword());
+        userDetails.getAuthorities().forEach(a -> {
+            log.debug("DB_role: "+ a.toString());
+        });
         return userDetails;
     }
 

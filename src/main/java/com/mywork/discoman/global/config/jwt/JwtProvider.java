@@ -14,7 +14,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+import org.springframework.web.util.WebUtils;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -116,4 +120,27 @@ public class JwtProvider {
             return e.getClaims();
         }
     }
+
+    public JwtToken parseToken(HttpServletRequest request) {
+        Cookie accessTokenCookie = WebUtils.getCookie(request, "accessToken");
+        Cookie refreshTokenCookie = WebUtils.getCookie(request, "refreshToken");
+        String accessToken=null;
+        String refreshToken=null;
+
+        try {
+            accessToken = accessTokenCookie.getValue();
+        } catch (Exception e){}
+
+        try {
+            refreshToken= refreshTokenCookie.getValue();
+        } catch (NullPointerException e){}
+
+        if (StringUtils.hasText(accessToken) && StringUtils.hasText(refreshToken))
+            return JwtToken.builder()
+                    .accessToken(accessToken)
+                    .refreshToken(refreshToken)
+                    .build();
+        return null;
+    }
+
 }
