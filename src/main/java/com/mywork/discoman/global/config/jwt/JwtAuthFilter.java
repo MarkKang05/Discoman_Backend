@@ -47,12 +47,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             refreshToken = null;
         }
 
-//        log.debug("AccessToken: "+ accessToken);
-//        log.debug("RefreshToken: "+ refreshToken);
+        log.debug("AccessToken: "+ accessToken);
+        log.debug("RefreshToken: "+ refreshToken);
 
         if(accessToken != null && jwtProvider.validateJwtToken(accessToken)){
             Authentication authentication = jwtProvider.getAuthentication(accessToken);
             log.debug("Valid Authentication");
+//            response.addHeader("username", authentication.getName());
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } else if(accessToken != null && jwtProvider.validateJwtToken(refreshToken)){ // accesstoken만료/ 재발급
             log.debug("Only AccessToken expired");

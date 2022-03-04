@@ -57,6 +57,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public JwtToken loginUser(RequestLoginUserDto requestLoginUserDto) {
 //        UsernamePasswordAuthenticationToken authenticationToken =  requestLoginUserDto.toAuthentication();
+        log.debug("request_username: "+ requestLoginUserDto.getEmail());
+        log.debug("request_password: "+ requestLoginUserDto.getPassword());
         String username = userRepository.findByEmail(requestLoginUserDto.getEmail()).getUsername();
         String password = requestLoginUserDto.getPassword();
         log.debug("request_username: "+ username);

@@ -3,9 +3,11 @@ package com.mywork.discoman.domain.user.api;
 import com.mywork.discoman.domain.user.domain.User;
 import com.mywork.discoman.domain.user.dto.RequestLoginUserDto;
 import com.mywork.discoman.domain.user.dto.RequestSaveUserDto;
+import com.mywork.discoman.domain.user.dto.ResponseLoginUserDto;
 import com.mywork.discoman.domain.user.service.UserServiceImpl;
 import com.mywork.discoman.global.common.response.BasicResponse;
 import com.mywork.discoman.global.common.response.CommonResponse;
+import com.mywork.discoman.global.common.response.ErrorResponse;
 import com.mywork.discoman.global.config.jwt.JwtToken;
 import com.mywork.discoman.global.common.service.RedisService;
 import com.mywork.discoman.domain.user.service.UserService;
@@ -40,15 +42,16 @@ public class AuthController {
     }
 
     @PostMapping("/auth/login")
-    public ResponseEntity<?> LoginUser(@RequestBody RequestLoginUserDto requestLoginUserDto, HttpServletResponse response){
+    public ResponseEntity<? extends BasicResponse> LoginUser(@RequestBody RequestLoginUserDto requestLoginUserDto, HttpServletResponse response){
         JwtToken jwtToken = userService.loginUser(requestLoginUserDto);
 
         if (jwtToken.getAccessToken() != null){
-            response.addCookie(new CustomCookie("accessToken", jwtToken.getAccessToken(), 60000));
-            response.addCookie(new CustomCookie("refreshToken", jwtToken.getRefreshToken(), 120000));
-            return ResponseEntity.ok(jwtToken);
+            response.addCookie(new CustomCookie("accessToken", jwtToken.getAccessToken(), 6000));
+            response.addCookie(new CustomCookie("refreshToken", jwtToken.getRefreshToken(), 12000));
+            return ResponseEntity.ok(new CommonResponse<ResponseLoginUserDto>(new ResponseLoginUserDto("testname", "testmeail")));
         } else{
-            return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
+//            return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
+            return ResponseEntity.ok(new ErrorResponse<>("Error"));
         }
     }
 
