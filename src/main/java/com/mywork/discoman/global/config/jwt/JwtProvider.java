@@ -135,7 +135,7 @@ public class JwtProvider {
             refreshToken= refreshTokenCookie.getValue();
         } catch (NullPointerException e){}
 
-        if (StringUtils.hasText(accessToken) && StringUtils.hasText(refreshToken))
+        if (StringUtils.hasText(accessToken) || StringUtils.hasText(refreshToken))
             return JwtToken.builder()
                     .accessToken(accessToken)
                     .refreshToken(refreshToken)

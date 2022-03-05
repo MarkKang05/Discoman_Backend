@@ -39,5 +39,8 @@ public class ReleaseAlbum {
     @Column(nullable = false)
     private int released;
 
+    @Column(nullable = false)
+    private boolean isAccept=false;
+
     //review
 }

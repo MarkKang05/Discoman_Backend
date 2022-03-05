@@ -129,6 +129,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
+    public String getUsernameFromEmail(String email){
+        User user = userRepository.findByEmail(email);
+        return user.getUsername();
+    }
+
 
     // TODO: 2022/03/02 권한 추가, 제거, 보기, 전체 보기
 

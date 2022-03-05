@@ -46,9 +46,10 @@ public class AuthController {
         JwtToken jwtToken = userService.loginUser(requestLoginUserDto);
 
         if (jwtToken.getAccessToken() != null){
-            response.addCookie(new CustomCookie("accessToken", jwtToken.getAccessToken(), 6000));
-            response.addCookie(new CustomCookie("refreshToken", jwtToken.getRefreshToken(), 12000));
-            return ResponseEntity.ok(new CommonResponse<ResponseLoginUserDto>(new ResponseLoginUserDto("testname", "testmeail")));
+            response.addCookie(new CustomCookie("accessToken", jwtToken.getAccessToken(), 1 * 60));
+            response.addCookie(new CustomCookie("refreshToken", jwtToken.getRefreshToken(), 2 * 60));
+            return ResponseEntity.ok(new CommonResponse<ResponseLoginUserDto>(
+                    new ResponseLoginUserDto(userService.getUsernameFromEmail(requestLoginUserDto.getEmail()), requestLoginUserDto.getPassword())));
         } else{
 //            return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
             return ResponseEntity.ok(new ErrorResponse<>("Error"));
@@ -64,5 +65,11 @@ public class AuthController {
     public ResponseEntity<? extends BasicResponse> getAllUser(){
         List<User> users = userService.getAllUsers();
         return ResponseEntity.ok(new CommonResponse<List<User>>(users));
+    }
+
+    @GetMapping(value = "/auth/admin/validateAdmin")
+    public ResponseEntity validateMember() {
+        log.debug("$$Admin");
+        return ResponseEntity.ok().build();
     }
 }

@@ -25,6 +25,7 @@ public class ResponseReleaseAlbumDto {
     private String catalogue;
     private String country;
     private int released;
+    private boolean isAccept;
 //    public ResponseReleaseAlbumDto(ReleaseAlbum s, Long masterAlbumId, Long longId) {
 //        this.id = s.getId();
 //        this.masterAlbum = masterAlbumId;
@@ -45,6 +46,7 @@ public class ResponseReleaseAlbumDto {
         this.catalogue = album.getCatalogue();
         this.country = album.getCountry();
         this.released = album.getReleased();
+        this.isAccept = album.isAccept();
 
     }
 }

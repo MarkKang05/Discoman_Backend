@@ -41,25 +41,26 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String refreshToken;
         try {
             accessToken = jwtToken.getAccessToken();
-            refreshToken = jwtToken.getRefreshToken();
         } catch (Exception e) {
             accessToken = null;
+        }
+        try {
+            refreshToken = jwtToken.getRefreshToken();
+        } catch (Exception e) {
             refreshToken = null;
         }
 
         log.debug("AccessToken: "+ accessToken);
         log.debug("RefreshToken: "+ refreshToken);
 
-        if(accessToken != null && jwtProvider.validateJwtToken(accessToken)){
+        if(accessToken != null && jwtProvider.validateJwtToken(accessToken)){ // AT RT
             Authentication authentication = jwtProvider.getAuthentication(accessToken);
             log.debug("Valid Authentication");
-//            response.addHeader("username", authentication.getName());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        } else if(accessToken != null && jwtProvider.validateJwtToken(refreshToken)){ // accesstoken만료/ 재발급
-            log.debug("Only AccessToken expired");
-//            Authentication authentication = jwtProvider.getAuthentication(accessToken);
 
-//            RefreshToken savedRefreshToken = refreshTokenService.getRefreshTokenByUserEmail(authentication.getName());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        } else if(accessToken == null && jwtProvider.validateJwtToken(refreshToken)){ // RT
+            log.debug("Only AccessToken expired");
+
             Long userId = userRepository.findByUsername(redisService.getValues(refreshToken) ).get().getId();
             if (userId == null)
                 log.error("NONEUSERID");
@@ -67,16 +68,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             Authentication authentication = jwtProvider.getAuthentication(userId);
             String issuedAccessToken = jwtProvider.createAccessToken(authentication);
             response.addCookie(new CustomCookie("accessToken", issuedAccessToken));
-//
-//            RefreshToken newRefreshToken = savedRefreshToken.updateToken(issuedTokenDto.getRefreshToken());
-//            refreshTokenRepository.save(newRefreshToken);
-//            response.addCookie(new CustomCookie("accessToken", issuedTokenDto.getAccessToken()));
-//            response.addCookie(new CustomCookie("refreshToken", issuedTokenDto.getRefreshToken()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
-        } else if (accessToken!=null){
+        } else if (refreshToken==null){ // RT 존재 x
             log.debug("RefreshToken expired");
-//            Authentication authentication = tokenProvider.getAuthentication(accessToken);
-//            refreshTokenService.deleteByUserEmail(authentication.getName());
+
             response.addCookie(new CustomCookie("accessToken", null, 0));
             response.addCookie(new CustomCookie("refreshToken", null, 0));
             SecurityContextHolder.clearContext();
