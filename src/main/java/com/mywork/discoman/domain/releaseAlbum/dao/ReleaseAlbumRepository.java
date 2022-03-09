@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ReleaseAlbumRepository extends JpaRepository<ReleaseAlbum, Long> {
     List<ReleaseAlbum> findByMasterAlbumId(Long id);
+    List<ReleaseAlbum> findByIsAccept(boolean accept);
 }

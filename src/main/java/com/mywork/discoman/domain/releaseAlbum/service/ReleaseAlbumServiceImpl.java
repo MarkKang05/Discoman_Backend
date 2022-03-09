@@ -29,6 +29,13 @@ public class ReleaseAlbumServiceImpl {
         return albumDtos;
     }
 
+    public List<ResponseReleaseAlbumDto> getAllAcceptedRAlbum(boolean accept){
+        List<ResponseReleaseAlbumDto> albumDtos = new ArrayList<>();
+        List<ReleaseAlbum> releaseAlbums = RAlbumRepository.findByIsAccept(accept);
+        releaseAlbums.forEach(r -> albumDtos.add(new ResponseReleaseAlbumDto(r)));
+        return albumDtos;
+    }
+
     // CRUD SERVICE
     public List<ResponseReleaseAlbumDto> getAllRAlbum(){
         List<ReleaseAlbum> releaseAlbums = RAlbumRepository.findAll();
@@ -83,5 +90,12 @@ public class ReleaseAlbumServiceImpl {
             return false;
         RAlbumRepository.deleteById(id);
         return true;
+    }
+
+    public ResponseReleaseAlbumDto updateRAlbumsAccept(Long albumId, boolean accept) {
+        ReleaseAlbum releaseAlbum = RAlbumRepository.findById(albumId).get();
+        releaseAlbum.setAccept(accept);
+        RAlbumRepository.save(releaseAlbum);
+        return new ResponseReleaseAlbumDto(releaseAlbum);
     }
 }

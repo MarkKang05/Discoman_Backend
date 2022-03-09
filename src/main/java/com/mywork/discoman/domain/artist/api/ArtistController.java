@@ -7,6 +7,7 @@ import com.mywork.discoman.global.common.response.CommonResponse;
 import com.mywork.discoman.global.common.response.ErrorResponse;
 import com.mywork.discoman.domain.artist.service.ArtistServiceImpl;
 import com.mywork.discoman.global.common.service.RequestImageService;
+import com.mywork.discoman.infra.S3Storage.service.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +27,7 @@ public class ArtistController {
 
     private final ArtistServiceImpl artistService;
     private final RequestImageService requestImageService;
+    private final FileService fileService;
 
     @GetMapping("")
     public ResponseEntity<? extends BasicResponse> getAllArtists(){
@@ -75,6 +78,11 @@ public class ArtistController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ErrorResponse("Failed Image Upload", ""+HttpStatus.INTERNAL_SERVER_ERROR));
         }
+        return ResponseEntity.ok(new CommonResponse<String>("success Image Upload"));
+    }
+
+    @PostMapping("/image2")
+    public ResponseEntity<? extends BasicResponse> fileUpload2(@RequestParam("file") MultipartFile multipartFile, @RequestParam("id") Long id) throws IOException {
         return ResponseEntity.ok(new CommonResponse<String>("success Image Upload"));
     }
 }

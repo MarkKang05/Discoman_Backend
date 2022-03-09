@@ -2,9 +2,11 @@ package com.mywork.discoman.domain.sellAlbum.domain;
 
 import com.mywork.discoman.domain.releaseAlbum.domain.ReleaseAlbum;
 import com.mywork.discoman.domain.sellAlbum.domain.Condition;
+import com.mywork.discoman.domain.sellAlbumImage.domain.SellAlbumImage;
 import com.mywork.discoman.domain.user.domain.User;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "sellalbum")
@@ -34,4 +36,8 @@ public class SellAlbum {
     @ManyToOne
     @JoinColumn(name = "releasealbum_id")
     private ReleaseAlbum releaseAlbum;
+
+    @OneToMany
+    @JoinColumn(name = "sellalbum_id")
+    private List<SellAlbumImage> sellAlbumImage;
 }

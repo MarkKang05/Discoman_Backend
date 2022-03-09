@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
@@ -25,6 +26,19 @@ public class ReleaseAlbumController {
         List<ResponseReleaseAlbumDto> albumDtos = releaseAlbumService.getAllRAlbumByMAlbumId(id);
         return ResponseEntity.ok().body(new CommonResponse<List<ResponseReleaseAlbumDto>>(albumDtos));
 
+    }
+
+    @GetMapping("/isAccept")
+    public ResponseEntity<? extends BasicResponse> getAllAcceptedRAlbums(@PathParam("accept") boolean accept){
+        List<ResponseReleaseAlbumDto> albumDtos = releaseAlbumService.getAllAcceptedRAlbum(accept);
+        return ResponseEntity.ok(new CommonResponse<List<ResponseReleaseAlbumDto>>(albumDtos));
+    }
+
+    @GetMapping("/accept/{id}")
+    public ResponseEntity<? extends BasicResponse> updateRAlbumsAccept(@PathVariable("id") Long albumId, @PathParam("accept") boolean accept){
+        System.out.println(accept);
+        ResponseReleaseAlbumDto albumDto = releaseAlbumService.updateRAlbumsAccept(albumId, accept);
+        return ResponseEntity.ok(new CommonResponse<ResponseReleaseAlbumDto>(albumDto));
     }
 
     // CRUD API
