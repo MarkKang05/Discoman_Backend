@@ -3,6 +3,7 @@ cloud:
     credentials:
       accessKey: AKIATCKTLECTHIN3H3PU
       secretKey: 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
+
     s3:
       bucket: discoman-bucket
     region:
