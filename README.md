@@ -14,6 +14,7 @@
 * Spring Security
 * Redis
 * MySQL
+* Amazon S3
 * Docker
 * Linux
 
@@ -79,3 +80,9 @@
 	* POST /releaseAlbums/ : 릴리즈 앨범 생성
 	* PUT /releaseAlbums/{releaseAlbum_id} : 릴리즈 앨범 수정
 	* DELETE /releaseAlbums/{releaseAlbum_id} : 릴리즈 앨범 삭제
+
+# 5. 📋 TODO
+- [ ] OAuth2 구현
+- [ ] 앨범 데이터 액셀로 대량 업로드 처리(Admin)
+- [ ] 유저 이미지
+- [ ] 회원가입 시 인증 컨트롤러 추가(아이디, 이메일 중복)
